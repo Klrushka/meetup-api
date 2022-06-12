@@ -1,5 +1,6 @@
 import {Router} from 'express'
 import MeetupController from '../controllers/meetup.controller.js'
+import MeetupServices from "../services/meetup.services.js";
 
 class MeetupRoutes {
     constructor() {

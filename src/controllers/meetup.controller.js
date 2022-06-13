@@ -10,11 +10,14 @@ class MeetupController {
         this.getMeetup = this.getMeetup.bind(this)
         this.updateMeetup = this.updateMeetup.bind(this)
         this.deleteMeetup = this.deleteMeetup.bind(this)
+        this.getMeetupByTitle = this.getMeetupByTitle.bind(this)
+        this.getMeetupByTag = this.getMeetupByTag.bind(this)
+        this.getMeetupByDate = this.getMeetupByDate.bind(this)
     }
 
     async createMeetup(req, res) {
 
-        const meetup =  await this.service.create(req)
+        const meetup = await this.service.create(req)
 
         meetup ? res.status(201).json(meetup) : res.status(500).json(new HttpException(500,         // TODO status code
             'Can\'t execute post request'))
@@ -56,6 +59,33 @@ class MeetupController {
 
     }
 
+    async getMeetupByTitle(req, res) {
+
+        const meetup = await this.service.getByTitle(req)
+
+
+        meetup ? res.status(200).json(meetup) : res.status(404).json(new HttpException(404,
+            'No meetups like this title'))
+
+    }
+
+    async getMeetupByTag(req, res){
+
+        const meetup = await this.service.getByTag(req)
+
+        meetup ? res.status(200).json(meetup) : res.status(404).json(new HttpException(404,
+            'No meetups like this title'))
+
+    }
+
+    async getMeetupByDate(req,res){
+
+        const meetup = await this.service.getByDate(req)
+
+        meetup ? res.status(200).json(meetup) : res.status(404).json(new HttpException(404,
+            'No meetups with this date'))
+
+    }
 }
 
 export default MeetupController

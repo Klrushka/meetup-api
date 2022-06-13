@@ -17,6 +17,9 @@ class MeetupRoutes {
         this.router.get(`${this.path}/:id`, this.meetupController.getMeetup)
         this.router.put(`${this.path}/:id`, this.meetupController.updateMeetup)
         this.router.delete(`${this.path}/:id`, this.meetupController.deleteMeetup)
+        this.router.get(`${this.path}/find-by-title/:title`, this.meetupController.getMeetupByTitle)
+        this.router.get(`${this.path}/find-by-tag/:tag`, this.meetupController.getMeetupByTag)
+        this.router.get(`${this.path}/find-by-date/:date`, this.meetupController.getMeetupByDate)
     }
 }
 

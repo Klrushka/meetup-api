@@ -16,7 +16,7 @@ class MeetupServices {
 
             const {error} = this.validator.validate(meetupDto)
 
-            if (error){
+            if (error) {
                 console.log(error)
                 return null
             }
@@ -35,7 +35,7 @@ class MeetupServices {
 
     async getAll(req) {
         try {
-            const meetups = (await db.query('SELECT * FROM meetups'))
+            const meetups = await db.query('SELECT * FROM meetups')
 
             return meetups.rows.map(item => {
                 return new MeetupDto(item)
@@ -65,7 +65,7 @@ class MeetupServices {
 
         const {error} = this.validator.validate(meetupDto)
 
-        if (error){
+        if (error) {
             console.log(error)
             return null
         }
@@ -94,9 +94,9 @@ class MeetupServices {
 
         try {
             const id = req.params.id
-            const meetup = (await db.query(`DELETE
-                                            FROM meetups
-                                            WHERE id = $1`, [id]))
+            const meetup = await db.query(`DELETE
+                                           FROM meetups
+                                           WHERE id = $1`, [id])
 
             return new MeetupDto(meetup.rows[0])
         } catch (err) {
@@ -104,6 +104,75 @@ class MeetupServices {
         }
     }
 
+    async getByTitle(req) {
+
+        const title = '%' + req.params.title + '%'
+
+        try {
+            const meetup = await db.query(`SELECT *
+                                           FROM meetups
+                                           WHERE title LIKE $1`, [title])
+
+            if (meetup.rows.length === 0) {
+                return 0
+            }
+
+            return meetup.rows.map(item => {
+                return new MeetupDto(item)
+            })
+
+        } catch (err) {
+            return null
+        }
+
+    }
+
+    async getByTag(req) {
+
+        const tags = req.params.tag.split(',')
+
+        console.log(tags)
+
+        try {
+            const meetup = await db.query(`SELECT *
+                                           FROM meetups
+                                           WHERE tags && $1`, [tags])
+
+            if (meetup.rows.length === 0) {
+                return 0
+            }
+
+            return meetup.rows.map(item => {
+                return new MeetupDto(item)
+            })
+
+        } catch (err) {
+            return null
+        }
+
+    }
+
+    async getByDate(req) {
+
+        const date = req.params.date
+
+        try{
+            const meetup = await db.query(`SELECT * FROM meetups WHERE date = $1`, [date])
+
+
+            if (meetup.rows.length === 0) {
+                return 0
+            }
+
+            return meetup.rows.map(item => {
+                return new MeetupDto(item)
+            })
+
+        } catch (err){
+            return null
+        }
+
+    }
 }
 
 export default MeetupServices

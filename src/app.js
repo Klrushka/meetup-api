@@ -10,6 +10,7 @@ class App {
         this.initMiddleware()
         this.initRoutes(routes)
         this.initErrorHandling()
+
     }
 
     listen() {

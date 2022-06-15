@@ -5,87 +5,68 @@ class MeetupController {
 
     constructor() {
         this.service = new MeetupServices()
-        this.createMeetup = this.createMeetup.bind(this)
-        this.getMeetups = this.getMeetups.bind(this)
-        this.getMeetup = this.getMeetup.bind(this)
-        this.updateMeetup = this.updateMeetup.bind(this)
-        this.deleteMeetup = this.deleteMeetup.bind(this)
-        this.getMeetupByTitle = this.getMeetupByTitle.bind(this)
-        this.getMeetupByTag = this.getMeetupByTag.bind(this)
-        this.getMeetupByDate = this.getMeetupByDate.bind(this)
+
+        Object.getOwnPropertyNames(Object.getPrototypeOf(this))
+            .filter(prop => typeof this[prop] === 'function')
+            .forEach(prop => this[prop] = this[prop].bind(this))
     }
 
-    async createMeetup(req, res) {
+    async createMeetup(req, res, next) {
 
-        const meetup = await this.service.create(req)
+        try {
+            const meetup = await this.service.create(req.body)
+            res.status(201).json(meetup)
+        } catch (err) {
+            next(err)
+        }
 
-        meetup ? res.status(201).json(meetup) : res.status(500).json(new HttpException(500,         // TODO status code
-            'Can\'t execute post request'))
-    }
-
-    async getMeetups(req, res) {
-
-        const meetup = await this.service.getAll(req)
-
-        meetup ? res.status(200).json(meetup) : res.status(404).json(new HttpException(404,
-            'Meetups doesn\'t exist'))  // TODO status code
 
     }
 
-    async getMeetup(req, res) {
+    async getMeetups(req, res, next) {
 
-        const meetup = await this.service.getOne(req)
-
-        meetup ? res.status(200).json(meetup) : res.status(404).json(new HttpException(404,
-            'Meetup doesn\'t exist'))
-
-    }
-
-    async updateMeetup(req, res) {
-
-        const meetup = await this.service.update(req)
-
-        meetup ? res.status(200).json(meetup) : res.status(404).json(new HttpException(404,
-            'Can\'t execute PUT request maybe invalid id'))
+        try { //TODO reqBody
+            const meetup = await this.service.getAll(req.query)
+            res.status(200).json(meetup)
+        } catch (err) {
+            next(err)
+        }
 
     }
 
-    async deleteMeetup(req, res) {
+    async getMeetup(req, res, next) {
 
-        const meetup = await this.service.delete(req)
+        try {
+            const meetup = await this.service.getOne(req.params.id)
+            res.status(200).json(meetup)
+        } catch (err) {
+            next(err)
+        }
 
-        meetup ? res.status(404).json(new HttpException(404,
-            'Can\'t execute DELETE request maybe invalid id')) : res.status(204).json(meetup)
 
     }
 
-    async getMeetupByTitle(req, res) {
+    async updateMeetup(req, res, next) {
 
-        const meetup = await this.service.getByTitle(req)
-
-
-        meetup ? res.status(200).json(meetup) : res.status(404).json(new HttpException(404,
-            'No meetups like this title'))
-
-    }
-
-    async getMeetupByTag(req, res){
-
-        const meetup = await this.service.getByTag(req)
-
-        meetup ? res.status(200).json(meetup) : res.status(404).json(new HttpException(404,
-            'No meetups like this title'))
+        try {
+            const meetup = await this.service.update(req.body, req.params.id)
+            res.status(200).json(meetup)
+        } catch (err) {
+            next(err)
+        }
 
     }
 
-    async getMeetupByDate(req,res){
+    async deleteMeetup(req, res, next) {
 
-        const meetup = await this.service.getByDate(req)
-
-        meetup ? res.status(200).json(meetup) : res.status(404).json(new HttpException(404,
-            'No meetups with this date'))
-
+        try {
+            const meetup = await this.service.delete(req.params.id)
+            res.status(204).json(meetup)
+        } catch (err) {
+            next(err)
+        }
     }
+
 }
 
 export default MeetupController

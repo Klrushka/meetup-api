@@ -1,4 +1,3 @@
-import HttpException from '../exceptions/http.exception.js';
 import MeetupServices from '../services/meetup.services.js';
 
 class MeetupController {
@@ -25,7 +24,7 @@ class MeetupController {
 
     async getMeetups(req, res, next) {
 
-        try { //TODO reqBody
+        try { //TODO reqBody    
             const meetup = await this.service.getAll(req.query)
             res.status(200).json(meetup)
         } catch (err) {

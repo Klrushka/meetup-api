@@ -6,7 +6,7 @@ class QueryParamsValidator {
             title: joi.string(),
             tag: joi.any(),
             sort: joi.string(),
-            page: joi.number().required(),
+            page: joi.number(),
             date: joi.date(),
         })
     }

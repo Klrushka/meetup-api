@@ -12,6 +12,24 @@ class MeetupRoutes {
 
     initRoutes(){
         this.router.post(`${this.path}`, this.meetupController.createMeetup)
+       
+        /**
+         * @swagger
+         * /books:
+         *   get:
+         *     summary: Returns the list of all the books
+         *     tags: [Books]
+         *     responses:
+         *       200:
+         *         description: The list of the books
+         *         content:
+         *           application/json:
+         *             schema:
+         *               type: array
+         *               items:
+         *                 $ref: '#/components/schemas/Book'
+         */
+
         this.router.get(`${this.path}`, this.meetupController.getMeetups)
         this.router.get(`${this.path}/:id`, this.meetupController.getMeetup)
         this.router.put(`${this.path}/:id`, this.meetupController.updateMeetup)

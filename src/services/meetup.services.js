@@ -47,9 +47,6 @@ class MeetupServices {
         sqlQuery += query.sort ? ` ORDER BY ${query.sort} DESC` : ''
         sqlQuery += query.page ? ` LIMIT ${query.page * 10}` : ''
 
-
-        console.log(sqlQuery)
-
         const meetups = await db.query(sqlQuery)
 
 

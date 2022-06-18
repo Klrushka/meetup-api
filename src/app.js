@@ -1,22 +1,17 @@
 import express from 'express'
 import errorMiddleware from './middlewares/error.middleware.js'
-import swaggerJSDoc from 'swagger-jsdoc'
-import swaggerUI  from 'swagger-ui-express'
-import swaggerConfig from './config/swagger.config.js'
+import swaggerUi from 'swagger-ui-express'
+import swaggerFile from './swagger/swagger.doc.json' assert {type: "json"};
 
 class App {
     constructor(routes) {
-        
         this.app = express()
         this.port = process.env.PORT ?? 3000
-        this.specs = swaggerJSDoc(swaggerConfig)
-
-
+    
+    
         this.initMiddleware()
         this.initRoutes(routes)
         this.initErrorHandling()
-
-    
 
     }
 
@@ -29,11 +24,11 @@ class App {
     initMiddleware() {
         this.app.use(express.json())
         this.app.use(express.urlencoded({extended: true}))
-        this.app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(this.specs))
     }
 
     initRoutes(routes) {
         routes.forEach(route => this.app.use('/api', route.router))
+        this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile))
     }
 
     initErrorHandling(){

@@ -23,8 +23,7 @@ class MeetupController {
     }
 
     async getMeetups(req, res, next) {
-
-        try { //TODO reqBody    
+        try { 
             const meetup = await this.service.getAll(req.query)
             res.status(200).json(meetup)
         } catch (err) {

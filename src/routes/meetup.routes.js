@@ -1,16 +1,21 @@
 import {Router} from 'express'
 import MeetupController from '../controllers/meetup.controller.js'
-
+import { expressjwt } from 'express-jwt';
 class MeetupRoutes {
     constructor() {
         this.router = Router()
         this.meetupController = new MeetupController()
+        this.authentification = expressjwt({
+            secret: process.env.SECRET_KEY,
+            algorithms: ["HS256"],
+            /*requestProperty: 'auth' // by default req.auth*/
+        })
 
         this.initRoutes()
     }
 
     initRoutes(){
-        this.router.get(`/meetup`, this.meetupController.getMeetups
+        this.router.get(`/meetup`,this.meetupController.getMeetups
         /*
         #swagger.tags = ['Meetups']
         #swagger.description = 'get all meetups'
@@ -45,7 +50,7 @@ class MeetupRoutes {
         }
         */
         )
-        this.router.get(`/meetup/:id`, this.meetupController.getMeetup
+        this.router.get(`/meetup/:id`,this.meetupController.getMeetup
         /*   
         #swagger.tags = ['Meetups']
         #swagger.description = 'get meetup by id'
@@ -64,7 +69,7 @@ class MeetupRoutes {
         }    
         */
         )
-        this.router.post(`/meetup`, this.meetupController.createMeetup
+        this.router.post(`/meetup`,this.authentification,this.meetupController.createMeetup
         /*
         #swagger.tags = ['Meetups']
         #swagger.description = 'create new Meetup'
@@ -98,7 +103,7 @@ class MeetupRoutes {
         }
         */
         )
-        this.router.put(`/meetup/:id`, this.meetupController.updateMeetup
+        this.router.put(`/meetup/:id`, this.authentification, this.meetupController.updateMeetup
         /*
         #swagger.tags = ['Meetups']
         #swagger.description = 'update Meetup by id'
@@ -132,7 +137,7 @@ class MeetupRoutes {
         }
         */
         )
-        this.router.delete(`/meetup/:id`, this.meetupController.deleteMeetup
+        this.router.delete(`/meetup/:id`,this.authentification, this.meetupController.deleteMeetup
          /*   
         #swagger.tags = ['Meetups']
         #swagger.description = 'id'

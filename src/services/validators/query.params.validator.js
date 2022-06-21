@@ -1,4 +1,4 @@
-import joi from "joi";
+import joi from "joi"
 
 class QueryParamsValidator {
     constructor() {
@@ -11,7 +11,7 @@ class QueryParamsValidator {
         })
     }
 
-    validate(data){
+    validate(data) {
         return this.schema.validate(data)
     }
 }

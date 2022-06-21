@@ -3,7 +3,7 @@
   "info": {
     "version": "1.0.0",
     "title": "Meetup-api",
-    "description": "meetup api for you)"
+    "description": "meetup api for you"
   },
   "host": "localhost:3000/api",
   "basePath": "/",

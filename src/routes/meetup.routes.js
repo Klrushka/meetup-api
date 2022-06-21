@@ -142,7 +142,7 @@ class MeetupRoutes {
             type: 'number'
         }
         #swagger.responses[200] = {
-            description: 'return meeetup by id',
+            description: 'if all good return empty array',
             schema: {$ref: '#/definitions/Meetup'}
         }
         #swagger.responses[404] = {

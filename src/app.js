@@ -1,18 +1,18 @@
-import express from 'express'
-import errorMiddleware from './middlewares/error.middleware.js'
-import swaggerUi from 'swagger-ui-express'
-import swaggerFile from './swagger/swagger.doc.json' assert {type: "json"};
+import express from "express"
+import errorMiddleware from "./middlewares/error.middleware.js"
+import swaggerUi from "swagger-ui-express"
+import swaggerFile from "./swagger/swagger.doc.json" assert { type: "json" }
+import passport from "passport"
+import "./config/passport.js"
 
 class App {
     constructor(routes) {
         this.app = express()
         this.port = process.env.PORT ?? 3000
-    
-    
+
         this.initMiddleware()
         this.initRoutes(routes)
         this.initErrorHandling()
-
     }
 
     listen() {
@@ -23,18 +23,18 @@ class App {
 
     initMiddleware() {
         this.app.use(express.json())
-        this.app.use(express.urlencoded({extended: true}))
+        this.app.use(express.urlencoded({ extended: true }))
+        this.app.use(passport.initialize())
     }
 
     initRoutes(routes) {
-        routes.forEach(route => this.app.use('/api', route.router))
-        this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile))
+        routes.forEach((route) => this.app.use("/api", route.router))
+        this.app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerFile))
     }
 
-    initErrorHandling(){
+    initErrorHandling() {
         this.app.use(errorMiddleware)
     }
-
 }
 
 export default App

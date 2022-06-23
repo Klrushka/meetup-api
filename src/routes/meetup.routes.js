@@ -15,7 +15,7 @@ class MeetupRoutes {
     }
 
     initRoutes(){
-        this.router.get(`/meetup`,this.meetupController.getMeetups
+        this.router.get(`/meetup`,this.authentification,this.meetupController.getMeetups
         /*
         #swagger.tags = ['Meetups']
         #swagger.description = 'get all meetups'
@@ -50,7 +50,7 @@ class MeetupRoutes {
         }
         */
         )
-        this.router.get(`/meetup/:id`,this.meetupController.getMeetup
+        this.router.get(`/meetup/:id`,this.authentification, this.meetupController.getMeetup
         /*   
         #swagger.tags = ['Meetups']
         #swagger.description = 'get meetup by id'

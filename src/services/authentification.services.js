@@ -11,13 +11,9 @@ import { ExtractJwt } from "passport-jwt"
 import passport from "passport"
 
 const generateJwt = (id, roles) => {
-    const date = new Date()
-    date.setDate(date.getDate() + 1)
-
     const payload = {
         id,
         roles,
-        expiration: date.getTime(),
     }
 
     return jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: "24h" })
@@ -62,7 +58,6 @@ class AuthentificationServices {
         }
 
         const user = new User(body)
-        console.log(user)
 
         const newUser = await db.query(
             `INSERT INTO users (name, surname, telephone, email, hash, salt) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,

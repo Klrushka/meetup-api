@@ -1,4 +1,4 @@
-const dbConfig ={
+const dbConfig = {
     host: process.env.PG_HOST,
     database: process.env.PG_DATABASE,
     user: process.env.PG_USER,

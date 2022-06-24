@@ -38,27 +38,26 @@ Server have validator to json data if something wrong you get message with reaso
 - Login
 
     - success login 
-    ![](../images/success-loginpng.png)
+    ![](./images/success-loginpng.png)
     - invalid login
-    ![](../images/login-auth-error.png)
+    ![](./images/login-auth-error.png)
 - Registration
 
     - success registration
-    ![](../images/success-registration.png)
+    ![](./images/success-registration.png)
 
 
     - invalid json data
-    ![](../images/registration-invalid-json-data.png)
+    ![](./images/registration-invalid-json-data.png)
 
     - user already exist
-    ![](../images/user-already-exist-error.png)
+    ![](./images/user-already-exist-error.png)
 
 
 - Other errors
 
     - if you try to do request without login or registration
-    ![](../images/non-auth-error.png)
-
+    ![](./images/non-auth-error.png)
 
 
 ### GET:
@@ -73,10 +72,10 @@ To send GET request you need use this endpoints\
 - get meetups 
 
     - all
-    ![](../images/get-all-meetups.jpg)
+    ![](./images/get-all-meetups.jpg)
 
     - by id
-    ![](../images/get-by-id.jpg)
+    ![](./images/get-by-id.jpg)
 
 ### Post
 
@@ -87,7 +86,7 @@ To send POST request you need use this endpoints and admin access
 - Post meetup
 
     - success
-    ![](../images/success-post-requestjpg.jpg)
+    ![](./images/success-post-requestjpg.jpg)
 
 
 ### PUT
@@ -99,7 +98,7 @@ To send POST request you need use this endpoints and admin access
 - Put meetup
 
     - success
-    ![](../images/success-put.jpg)
+    ![](./images/success-put.jpg)
 
 
 ### Other information

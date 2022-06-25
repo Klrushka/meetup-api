@@ -53,6 +53,7 @@ class MeetupServices {
         let sqlQuery = "SELECT * FROM meetups"
         sqlQuery += filters.length > 0 ? ` WHERE ${filters.join(" AND ")}` : ""
         sqlQuery += query.sort ? ` ORDER BY ${query.sort} DESC` : ""
+        // 10 - amount meetups on page 
         sqlQuery += query.page ? ` LIMIT ${query.page * 10}` : ""
 
         const meetups = await db.query(sqlQuery)
@@ -106,7 +107,7 @@ class MeetupServices {
             [id]
         )
 
-        return new MeetupDto(meetup.rows[0])
+        return {}
     }
 }
 

@@ -146,13 +146,9 @@ class MeetupRoutes {
             description: 'meetup id',
             type: 'number'
         }
-        #swagger.responses[200] = {
-            description: 'if all good return empty array',
-            schema: {$ref: '#/definitions/Meetup'}
-        }
-        #swagger.responses[404] = {
-            description: 'Can\'t find meetup with id = {id}'
-        }    
+        #swagger.responses[204] = {
+            description: 'if all good return empty response',
+        } 
         */
         )
     }

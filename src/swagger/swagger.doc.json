@@ -3,7 +3,7 @@
   "info": {
     "version": "1.0.0",
     "title": "Meetup-api",
-    "description": "meetup api for you"
+    "description": "meetup api for you)"
   },
   "host": "localhost:3000/api",
   "basePath": "/",
@@ -244,14 +244,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "return meeetup by id",
-            "schema": {
-              "$ref": "#/definitions/Meetup"
-            }
-          },
-          "404": {
-            "description": "Can't find meetup with id = {id}"
+          "204": {
+            "description": "if all good return empty response"
           }
         }
       }

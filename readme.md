@@ -14,7 +14,7 @@ Used technologies:
 ## Startup instructions
 To run the application, you need open console in project root directory and enter this commands:
 
-Init project: ```npm init ```
+Init project: ```npm install ```
 
 Dev: ```npm run dev``` \
 \
@@ -35,7 +35,7 @@ To registrate send json with fields "name", "surname", "email", "password", "tel
 
 Server have validator to json data if something wrong you get message with reason. 
 
-If you need change enviromets variables, you need to create .env file. 
+To configure application you need to set-up the following environment variables: 
 - ``` PG_HOST ``` — DB host
 - ``` PG_DATABASE ``` — DB name
 - ``` PG_USER ``` — DB user
@@ -43,6 +43,7 @@ If you need change enviromets variables, you need to create .env file.
 - ``` PG_PORT ``` — DB port
 - ``` PORT ``` — Server port
 - ``` SECRET_KEY ``` — Jwt secret key
+To do this you could create .env file in the root directory
 
 ### Example
 

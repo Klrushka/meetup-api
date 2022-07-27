@@ -1,13 +1,15 @@
-import db from "../services/db/db.js"
-import MeetupDto from "./dto/meetup.dto.js"
-import MeetupValidator from "./validators/meetup.validator.js"
-import HttpException from "../exceptions/http.exception.js"
-import QueryParamsValidator from "./validators/query.params.validator.js"
+import db from '../services/db/db.js'
+import MeetupDto from './dto/meetup.dto.js'
+import MeetupValidator from './validators/meetup.validator.js'
+import HttpException from '../exceptions/http.exception.js'
+import QueryParamsValidator from './validators/query.params.validator.js'
+import Logger from './logger.js'
 
 class MeetupServices {
     constructor() {
         this.validator = new MeetupValidator()
         this.queryValidator = new QueryParamsValidator()
+        this.logger = new Logger()
     }
 
     async create(body) {
@@ -18,7 +20,7 @@ class MeetupServices {
         if (error) {
             throw new HttpException(
                 400,
-                error.details.map((item) => item.message).join("\n")
+                error.details.map((item) => item.message).join('\n')
             )
         }
 
@@ -32,6 +34,8 @@ class MeetupServices {
             ]
         )
 
+        this.logger.debug('Meetup was created')
+
         return new MeetupDto(meetup.rows[0])
     }
 
@@ -41,7 +45,7 @@ class MeetupServices {
         if (error) {
             throw new HttpException(
                 400,
-                error.details.map((item) => item.message).join("\n")
+                error.details.map((item) => item.message).join('\n')
             )
         }
 
@@ -50,13 +54,15 @@ class MeetupServices {
         query.tag ? filters.push(`(tags && '\{${query.tag}\}')`) : null
         query.date ? filters.push(`(date = '${query.date}')`) : null
 
-        let sqlQuery = "SELECT * FROM meetups"
-        sqlQuery += filters.length > 0 ? ` WHERE ${filters.join(" AND ")}` : ""
-        sqlQuery += query.sort ? ` ORDER BY ${query.sort} DESC` : ""
-        // 10 - amount meetups on page 
-        sqlQuery += query.page ? ` LIMIT ${query.page * 10}` : ""
+        let sqlQuery = 'SELECT * FROM meetups'
+        sqlQuery += filters.length > 0 ? ` WHERE ${filters.join(' AND ')}` : ''
+        sqlQuery += query.sort ? ` ORDER BY ${query.sort} DESC` : ''
+        // 10 - amount meetups on page
+        sqlQuery += query.page ? ` LIMIT ${query.page * 10}` : ''
 
         const meetups = await db.query(sqlQuery)
+
+        this.logger.debug('Request to get all meetups')
 
         return meetups.rows.map((item) => {
             return new MeetupDto(item)
@@ -64,14 +70,16 @@ class MeetupServices {
     }
 
     async getOne(id) {
-        const meetup = await db.query(
-            `SELECT * FROM meetups where id = $1`,
-            [id]
-        )
+        const meetup = await db.query(`SELECT * FROM meetups where id = $1`, [
+            id,
+        ])
 
         if (meetup.rows.length === 0) {
             throw new HttpException(404, `Can't find meetup with id = ${id}`)
         }
+
+        this.logger.debug('Request to get meetup')
+
         return new MeetupDto(meetup.rows[0])
     }
 
@@ -83,8 +91,8 @@ class MeetupServices {
         if (error) {
             throw new HttpException(
                 400,
-                error.details.map((item) => item.message).join("\n")
-            ) 
+                error.details.map((item) => item.message).join('\n')
+            )
         }
 
         const meetup = await db.query(
@@ -98,14 +106,15 @@ class MeetupServices {
             ]
         )
 
+        this.logger.debug('Request to change info about meetup')
+
         return new MeetupDto(meetup.rows[0])
     }
 
     async delete(id) {
-        const meetup = await db.query(
-            `DELETE FROM meetups WHERE id = $1`,
-            [id]
-        )
+        const meetup = await db.query(`DELETE FROM meetups WHERE id = $1`, [id])
+
+        this.logger.debug('Request to delete meetup')
 
         return {}
     }

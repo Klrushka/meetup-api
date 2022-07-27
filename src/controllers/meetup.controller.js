@@ -1,9 +1,11 @@
 import HttpException from '../exceptions/http.exception.js'
 import MeetupServices from '../services/meetup.services.js'
+import Logger from '../services/logger.js'
 
 class MeetupController {
     constructor() {
         this.service = new MeetupServices()
+        this.logger = new Logger()
 
         Object.getOwnPropertyNames(Object.getPrototypeOf(this))
             .filter((prop) => typeof this[prop] === 'function')
@@ -12,6 +14,8 @@ class MeetupController {
 
     async createMeetup(req, res, next) {
         try {
+            this.logger.info(`POST request by endpoint '/meetup`)
+
             if (req.auth.roles.find((item) => item === 'admin')) {
                 const meetup = await this.service.create(req.body)
                 res.status(201).json(meetup)
@@ -25,6 +29,8 @@ class MeetupController {
 
     async getMeetups(req, res, next) {
         try {
+            this.logger.info(`GET request by endpoint '/meetup`)
+
             if (
                 req.auth.roles.find(
                     (item) => item === 'admin' || item === 'user'
@@ -42,6 +48,8 @@ class MeetupController {
 
     async getMeetup(req, res, next) {
         try {
+            this.logger.info(`GET request by endpoint '/meetup/:id`)
+
             if (
                 req.auth.roles.find(
                     (item) => item === 'admin' || item === 'user'
@@ -59,6 +67,8 @@ class MeetupController {
 
     async updateMeetup(req, res, next) {
         try {
+            this.logger.info(`PUT request by endpoint '/meetup/:id`)
+
             if (req.auth.roles.find((item) => item === 'admin')) {
                 const meetup = await this.service.update(
                     req.body,
@@ -75,6 +85,8 @@ class MeetupController {
 
     async deleteMeetup(req, res, next) {
         try {
+            this.logger.info(`DELETE request by endpoint '/meetup/:id`)
+
             if (req.auth.roles.find((item) => item === 'admin')) {
                 const meetup = await this.service.delete(req.params.id)
                 res.status(204).json(meetup)

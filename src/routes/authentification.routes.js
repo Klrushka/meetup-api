@@ -1,5 +1,5 @@
-import { Router } from "express"
-import AuthentificationController from "../controllers/authentification.controller.js"
+import { Router } from 'express'
+import AuthentificationController from '../controllers/authentification.controller.js'
 
 class AuthentificationRoutes {
     constructor() {
@@ -11,10 +11,10 @@ class AuthentificationRoutes {
 
     initRoutes() {
         this.router.post(
-            "/registration",
+            '/registration',
             this.authentificationController.registration
         )
-        this.router.post("/login", this.authentificationController.login)
+        this.router.post('/login', this.authentificationController.login)
     }
 }
 

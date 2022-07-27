@@ -1,14 +1,10 @@
-import HttpException from "../exceptions/http.exception.js"
-import User from "../models/user.js"
-import db from "./db/db.js"
-import UserDto from "./dto/user.dto.js"
-import AuthentificationValidator from "./validators/authentification.validator.js"
-import UserValidator from "./validators/user.validator.js"
-import bcrypt from "bcrypt"
-import jwt from "jsonwebtoken"
-import { Strategy } from "passport-jwt"
-import { ExtractJwt } from "passport-jwt"
-import passport from "passport"
+import HttpException from '../exceptions/http.exception.js'
+import User from '../models/user.js'
+import db from './db/db.js'
+import AuthentificationValidator from './validators/authentification.validator.js'
+import UserValidator from './validators/user.validator.js'
+import jwt from 'jsonwebtoken'
+import Logger from './logger.js'
 
 const generateJwt = (id, roles) => {
     const payload = {
@@ -16,13 +12,14 @@ const generateJwt = (id, roles) => {
         roles,
     }
 
-    return jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: "24h" })
+    return jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: '24h' })
 }
 
 class AuthentificationServices {
     constructor() {
         this.authentificationValidator = new AuthentificationValidator()
         this.userValidator = new UserValidator()
+        this.logger = new Logger()
     }
 
     async getUserByEmail(email) {
@@ -47,7 +44,7 @@ class AuthentificationServices {
         if (error) {
             throw new HttpException(
                 400,
-                error.details.map((item) => item.message).join("\n")
+                error.details.map((item) => item.message).join('\n')
             )
         }
         if (!this.isUserExist(body.email)) {
@@ -70,6 +67,8 @@ class AuthentificationServices {
                 user.salt,
             ]
         )
+
+        this.logger.debug('User was created and added to BD')
 
         return generateJwt(newUser.rows[0].id, newUser.rows[0].roles)
     }

@@ -2,10 +2,12 @@ import AuthentificationServices, {
     generateJwt,
 } from '../services/authentification.services.js'
 import passport from 'passport'
+import Logger from '../services/logger.js'
 
 class AuthentificationController {
     constructor() {
         this.service = new AuthentificationServices()
+        this.logger = new Logger()
 
         Object.getOwnPropertyNames(Object.getPrototypeOf(this))
             .filter((prop) => typeof this[prop] === 'function')
@@ -14,6 +16,8 @@ class AuthentificationController {
 
     async registration(req, res, next) {
         try {
+            this.logger.info(`POST request by endpoint '/registration`)
+
             const jwt = await this.service.createUser(req.body)
             res.status(201).json({
                 token: jwt,
@@ -24,6 +28,8 @@ class AuthentificationController {
     }
 
     async login(req, res, next) {
+        this.logger.info(`POST request by endpoint '/login`)
+
         passport.authenticate('local', (err, user) => {
             if (err) {
                 res.status(404).json(err)

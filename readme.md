@@ -43,6 +43,8 @@ To configure application you need to set-up the following environment variables:
 - ``` PG_PORT ``` — DB port
 - ``` PORT ``` — Server port
 - ``` SECRET_KEY ``` — Jwt secret key
+- ```LOG_FILE_PATH``` — path to file where logs will be saved
+- ```LOG_LEVEL``` — log level \
 To do this you could create .env file in the root directory
 
 ### Example

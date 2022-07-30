@@ -1,4 +1,5 @@
 import express from 'express'
+import session from 'express-session'
 import errorMiddleware from './middlewares/error.middleware.js'
 import swaggerUi from 'swagger-ui-express'
 import swaggerFile from './swagger/swagger.doc.json' assert { type: 'json' }
@@ -26,7 +27,10 @@ class App {
     initMiddleware() {
         this.app.use(express.json())
         this.app.use(express.urlencoded({ extended: true }))
+
+        this.app.use(session({ secret: process.env.SECRET_KEY }))
         this.app.use(passport.initialize())
+        this.app.use(passport.session())
         this.logger.info('Middlewares was initialized')
     }
 

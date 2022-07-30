@@ -46,6 +46,12 @@ class AuthentificationController {
             }
         })(req, res, next)
     }
+
+    async googleAuth(req, res, next) {
+        res.json({
+            token: generateJwt(req.user.id, req.user.roles),
+        })
+    }
 }
 
 export default AuthentificationController

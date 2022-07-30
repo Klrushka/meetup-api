@@ -2,4 +2,5 @@
 /.idea/
 .env
 .vscode
-/src/logs
+/logs/
+client_secret_108629443487-s13421qlpksljm0ob74aes0kunihia3s.apps.googleusercontent.com.json
